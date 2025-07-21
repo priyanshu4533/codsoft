@@ -1,0 +1,133 @@
+HTML FILE---------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Calculator</title>
+  <link rel="stylesheet" href="style2.css" />
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <!-- Row 1 -->
+      <button class="btn" data-action="clear">C</button>
+      <button class="btn" data-value="/">÷</button>
+      <button class="btn" data-value="*">×</button>
+      <button class="btn" data-value="-">−</button>
+      <!-- Row 2 -->
+      <button class="btn" data-value="7">7</button>
+      <button class="btn" data-value="8">8</button>
+      <button class="btn" data-value="9">9</button>
+      <button class="btn" data-value="+">+</button>
+      <!-- Row 3 -->
+      <button class="btn" data-value="4">4</button>
+      <button class="btn" data-value="5">5</button>
+      <button class="btn" data-value="6">6</button>
+      <button class="btn equal" data-action="calculate">=</button>
+      <!-- Row 4 -->
+      <button class="btn" data-value="1">1</button>
+      <button class="btn" data-value="2">2</button>
+      <button class="btn" data-value="3">3</button>
+      <button class="btn" data-value="0" style="grid-column: span 2;">0</button>
+      <button class="btn" data-value=".">.</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+CSS FILE------
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #f0f0f0, #ddd);
+  font-family: Arial, sans-serif;
+}
+
+.calculator {
+  width: 320px;
+  background: #222;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.display {
+  background: #000;
+  color: #0f0;
+  font-size: 2rem;
+  padding: 20px;
+  text-align: right;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  padding: 10px;
+}
+
+.btn {
+  background: #333;
+  color: #fff;
+  font-size: 1.5rem;
+  padding: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn:hover {
+  background: #555;
+}
+
+.equal {
+  background: #f0a500;
+  color: #000;
+}
+
+.equal:hover {
+  background: #ffc107;
+}
+
+
+JS FILE------
+
+const display = document.getElementById('display');
+let currentInput = '';
+let operatorClicked = false;
+
+document.querySelectorAll('.btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const value = button.dataset.value;
+    const action = button.dataset.action;
+
+    if (action === 'clear') {
+      currentInput = '';
+      display.textContent = '0';
+      return;
+    }
+
+    if (action === 'calculate') {
+      try {
+        currentInput = eval(currentInput); // basic calculator logic
+        display.textContent = currentInput;
+      } catch {
+        display.textContent = 'Error';
+      }
+      return;
+    }
+
+    // Append numbers/operators
+    if (value !== undefined) {
+      currentInput += value;
+      display.textContent = currentInput;
+    }
+  });
+});
